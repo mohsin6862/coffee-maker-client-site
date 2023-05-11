@@ -6,11 +6,19 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import AllCoffee from './components/AllCoffee.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
+    children:[
+      {
+        path:'/',
+        element:<AllCoffee></AllCoffee>,
+        loader: ()=> fetch('http://localhost:5000/coffee')
+      }
+    ]
   },
 ]);
 
