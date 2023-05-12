@@ -1,10 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import swal from 'sweetalert2'
 import { FaArrowLeft, } from "react-icons/fa";
 
-const AddCoffee = () => {
-    const handleAddCoffee =(event)=>{
+
+const UpdateCoffee = () => {
+    const update = useLoaderData()
+
+    const handleUpdatedCoffee =(event)=>{
         event.preventDefault()
         const form = event.target;
         const name = form.name.value;   
@@ -17,8 +20,8 @@ const AddCoffee = () => {
         const newCoffee = {name,chef,supplier,taste,details,category,photo}
         console.log(newCoffee)
          
-        fetch('http://localhost:5000/coffee',{
-          method:'POST',
+        fetch(`http://localhost:5000/coffee/${update?._id}`,{
+          method:'PUT',
           headers:{
             'content-type': 'application/json'
           },
@@ -31,7 +34,7 @@ const AddCoffee = () => {
             swal.fire(
            {
             title: 'Success',
-            text: 'Coffee added successfully',
+            text: 'Coffee updated successfully',
             type: 'success',
             icon:'success',
             confirmButtonText: 'Done'
@@ -43,14 +46,15 @@ const AddCoffee = () => {
     
       }
     return (
-        <>
+        <div>
+          <>
       <Link to='/'>  <h3 className='text-2xl mt-5 ml-5 flex items-center'><FaArrowLeft></FaArrowLeft><span className='ml-3'>Back to home</span></h3></Link>
-        <h1 className='text-center text-4xl mt-20'>Add new Coffee</h1>
+        <h1 className='text-center text-4xl mt-20'>Please Update {update?.name} </h1>
         <p className='text-center w-[60%] mx-auto mt-5'>It is a long established fact that a reader will be distraceted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here.</p>
   
         <div className='w-full mx-auto mt-5'>
   
-          <form onSubmit={handleAddCoffee} >
+          <form onSubmit={handleUpdatedCoffee} >
           <div className='w-[50%] mx-auto grid grid-cols-2 gap-8'>
           <div className="form-control ">
             <label className="label">
@@ -58,7 +62,7 @@ const AddCoffee = () => {
             </label>
             <label className="input-group">
             
-              <input type="text" name='name' placeholder="Enter coffee name" className="input input-bordered" />
+              <input type="text" name='name' defaultValue={update?.name}  placeholder="Enter coffee name" className="input input-bordered" />
             </label>
             </div>
           <div className="form-control ">
@@ -67,7 +71,7 @@ const AddCoffee = () => {
             </label>
             <label className="input-group">
             
-              <input type="text" name='chef' placeholder="Enter coffee chef" className="input input-bordered" />
+              <input type="text" name='chef'defaultValue={update?.chef}   placeholder="Enter coffee chef" className="input input-bordered" />
             </label>
           </div>
           <div className="form-control ">
@@ -76,7 +80,7 @@ const AddCoffee = () => {
             </label>
             <label className="input-group">
             
-              <input type="text" name='supplier' placeholder="Enter coffee Supplier" className="input input-bordered" />
+              <input type="text" name='supplier' defaultValue={update?.supplier}  placeholder="Enter coffee Supplier" className="input input-bordered" />
             </label>
           </div>
           <div className="form-control ">
@@ -85,7 +89,7 @@ const AddCoffee = () => {
             </label>
             <label className="input-group">
             
-              <input type="text" name='taste' placeholder="Enter coffee Taste" className="input input-bordered" />
+              <input type="text" name='taste' defaultValue={update?.taste} placeholder="Enter coffee Taste" className="input input-bordered" />
             </label>
           </div>
           <div className="form-control ">
@@ -94,7 +98,7 @@ const AddCoffee = () => {
             </label>
             <label className="input-group">
             
-              <input type="text" name='details' placeholder="Enter coffee Details" className="input input-bordered" />
+              <input type="text" name='details' defaultValue={update?.details}  placeholder="Enter coffee Details" className="input input-bordered" />
             </label>
           </div>
           <div className="form-control ">
@@ -103,7 +107,7 @@ const AddCoffee = () => {
             </label>
             <label className="input-group">
             
-              <input type="text" name='category' placeholder="Enter coffee Category" className="input input-bordered" />
+              <input type="text" name='category' defaultValue={update?.category} placeholder="Enter coffee Category" className="input input-bordered" />
             </label>
           </div>
           </div>
@@ -113,7 +117,7 @@ const AddCoffee = () => {
             </label>
             <label >
             
-              <input  type="text" name='photo' placeholder="Enter coffee Photo URL" className="input input-bordered w-full" />
+              <input  type="text" name='photo' defaultValue={update?.photo}  placeholder="Enter coffee Photo URL" className="input input-bordered w-full" />
             </label>
           </div>
           <div className=" w-[50%] mx-auto">
@@ -125,6 +129,8 @@ const AddCoffee = () => {
         </div>
       </>
     );
+        </div>
+    );
 };
 
-export default AddCoffee;
+export default UpdateCoffee;
